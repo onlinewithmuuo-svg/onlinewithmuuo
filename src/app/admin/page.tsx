@@ -760,7 +760,7 @@ export default function AdminPage() {
 
                     <div className="pt-4 border-t border-slate-900/80 flex items-center justify-between text-slate-400">
                       <span className="text-[10px] font-bold">
-                        {pages} Pages • Digital PDF
+                        Digital PDF Guide
                       </span>
                       <span className="text-sm font-black text-emerald-400">
                         ${price}
@@ -791,7 +791,7 @@ export default function AdminPage() {
                     </div>
 
                     <div className="border-t border-slate-900 pt-2.5 flex items-center justify-between">
-                      <span className="text-[9px] text-slate-500 font-bold">{format} • {fileSize}</span>
+                      <span className="text-[9px] text-slate-500 font-bold">Digital PDF Guide</span>
                       <span className="text-[10px] text-emerald-400 font-bold flex items-center gap-0.5 hover:translate-x-1 transition-transform cursor-pointer">
                         Preview details <ArrowRight className="h-3 w-3" />
                       </span>

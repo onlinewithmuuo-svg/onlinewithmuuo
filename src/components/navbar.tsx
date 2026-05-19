@@ -264,7 +264,7 @@ export function Navbar() {
                   <div key={item.id} className="flex gap-4 p-4 bg-slate-900/40 rounded-2xl border border-slate-900 justify-between items-center">
                     <div className="min-w-0">
                       <h4 className="text-sm font-bold text-white truncate">{item.title}</h4>
-                      <p className="text-xs text-slate-400 mt-0.5">{item.format} • {item.fileSize}</p>
+                      <p className="text-xs text-slate-400 mt-0.5">Digital PDF Guide</p>
                       <p className="text-xs font-bold text-emerald-400 mt-1">{convertPrice(item.price)}</p>
                     </div>
                     <button

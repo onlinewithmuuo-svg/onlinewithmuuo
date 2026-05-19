@@ -173,18 +173,11 @@ export default function ProductDetailPage({ params }: PageProps) {
 
               <div className="pt-4 border-t border-slate-900/60 text-center">
                 <span className="text-xs text-slate-400 font-bold font-mono">
-                  {product.pages} Pages • Digital PDF
+                  Digital PDF Guide
                 </span>
               </div>
             </div>
           </div>
-
-          {/* Embedded Look Inside module */}
-          <LookInside
-            samplePages={product.samplePages}
-            totalPages={product.pages}
-            onBuyNow={handleBuyNow}
-          />
         </div>
 
         {/* RIGHT COLUMN: Rich metadata specifications, CTAs, features list */}
@@ -207,21 +200,6 @@ export default function ProductDetailPage({ params }: PageProps) {
             <p className="text-slate-300 text-sm leading-relaxed text-justify">
               {product.description}
             </p>
-          </div>
-
-          {/* File Format Specifications */}
-          <div className="animate-right-col-item grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-slate-900/40 rounded-2xl border border-slate-900">
-            {[
-              { label: "File Format", value: product.format },
-              { label: "File Size", value: product.fileSize },
-              { label: "Page Count", value: `${product.pages} Pages` },
-              { label: "Release Edition", value: `${product.publishedYear} v1.2` }
-            ].map((spec, i) => (
-              <div key={i} className="text-center sm:text-left">
-                <p className="text-[10px] uppercase font-bold text-slate-500">{spec.label}</p>
-                <p className="text-xs font-bold text-white mt-1">{spec.value}</p>
-              </div>
-            ))}
           </div>
 
           {/* Core Strategies Checklist */}

@@ -74,7 +74,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
             <div className="pt-2 border-t border-slate-900/60 text-center">
               <span className="text-[9px] text-slate-400 font-medium">
-                {product.pages} Pages • {product.fileSize}
+                Digital PDF Guide
               </span>
             </div>
           </div>

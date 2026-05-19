@@ -104,7 +104,7 @@ export function LookInside({ samplePages, totalPages, onBuyNow }: LookInsideProp
           </div>
 
           {/* Sample Page Viewport */}
-          <div className="relative aspect-[3/4.2] sm:aspect-[3/3.8] bg-slate-950 p-6 sm:p-8 flex flex-col justify-between overflow-hidden select-none" style={{ perspective: "1000px" }}>
+          <div className="relative aspect-auto min-h-[460px] sm:aspect-[3/3.8] bg-slate-950 p-6 sm:p-8 flex flex-col justify-between overflow-hidden select-none" style={{ perspective: "1000px" }}>
             {/* Book Spine Shadow */}
             <div className="absolute top-0 left-0 bottom-0 w-3 bg-gradient-to-r from-black/40 via-black/10 to-transparent" />
 

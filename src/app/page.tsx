@@ -277,7 +277,7 @@ export default function Home() {
 
             {/* ANIMATION 2: CountUp hero stat */}
             <motion.div
-              className="hero-element flex justify-center gap-8 text-center"
+              className="hero-element flex justify-center gap-4 sm:gap-8 text-center"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}

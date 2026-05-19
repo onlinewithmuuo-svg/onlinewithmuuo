@@ -45,7 +45,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div
-      className="glass-panel glass-panel-hover rounded-3xl p-6 flex flex-col justify-between h-full relative overflow-hidden group"
+      className="glass-panel glass-panel-hover rounded-3xl p-6 flex flex-col justify-between h-full relative overflow-hidden group max-w-md mx-auto w-full"
     >
       {/* Decorative Gradient Background */}
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl group-hover:bg-emerald-500/15 transition-all duration-500 pointer-events-none" />

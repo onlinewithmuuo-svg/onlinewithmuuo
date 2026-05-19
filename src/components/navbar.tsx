@@ -189,7 +189,7 @@ export function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-t border-slate-900 bg-slate-950 px-4 pt-2 pb-4 space-y-2"
+              className="md:hidden border-t border-slate-900 bg-slate-950 px-4 pt-2 pb-4 space-y-3"
             >
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
@@ -208,6 +208,18 @@ export function Navbar() {
                   </Link>
                 );
               })}
+              
+              <div className="pt-2 border-t border-slate-900">
+                <button
+                  className="w-full flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl text-sm font-black bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 transition-all cursor-pointer"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    alert("Simulated OAuth / Sign In prompt: supabase auth email confirmations route successfully");
+                  }}
+                >
+                  Login / Sign Up
+                </button>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

@@ -25,8 +25,8 @@ export const products: Product[] = [
   {
     id: "first-100-online",
     title: "How I Made My First $100 Online: A Step-by-Step Blueprint",
-    snippet: "Stop grinding without results. Follow the exact, battle-tested framework I used to secure my first $100 online working from anywhere, with zero starting capital.",
-    description: "How I Made My First $100 Online is a practical, beginner-friendly digital workbook that cuts through the noise of 'get rich quick' schemes. This ebook strips away the theoretical filler and provides raw, step-by-step methods to monetize basic skills like typing, proofreading, and data management. It walks you from profile creation to securing your first paying client within 7 days.",
+    snippet: "Stop grinding without results. Follow the exact, battle-tested framework to make your first $100 online by creating and selling simple, high-demand PDFs with zero starting capital.",
+    description: "How I Made My First $100 Online is a step-by-step blueprint on how to make your first $100 working online from home by creating and selling simple PDFs. This comprehensive, beginner-friendly roadmap strips away the fluff, showing you how to turn basic knowledge into CVs, planners, guides, and mini-ebooks, choose simple tools like Canva, price your files, and collect payments smoothly.",
     price: 19,
     rating: 4.9,
     reviewsCount: 142,
@@ -36,11 +36,21 @@ export const products: Product[] = [
     format: "Interactive PDF",
     publishedYear: "2026",
     features: [
-      "The exact 3-step sequence to land your first remote micro-task.",
-      "High-converting pitch templates to message clients on top remote platforms.",
-      "Profile optimization checklists for global freelance platforms to bypass onboarding filters.",
-      "5 legitimate, zero-capital digital skills you can monetize in 2 hours.",
-      "Real-world case studies detailing payment processing and client handling."
+      "Introduction: Why selling PDFs is a simple, effective online income method for beginners with zero capital or design skills.",
+      "Mindset shifts: Focusing on small goals like your first $10 and understanding that people buy solutions, not just files.",
+      "Profitable PDF formats: Step-by-step guides, CV/planner templates, checklists, mini eBooks, and study notes (especially for Kenya).",
+      "Demand research: How to identify hot niches using platforms like TikTok, Google search, and WhatsApp groups.",
+      "Idea selection: Choosing your first PDF concept by keeping it simple, focused, and solving one problem at a time.",
+      "Simple creation tools: How to design and export beautiful PDFs using free software like Canva and Google Docs.",
+      "Pricing strategy: Emphasizing starting cheap ($2 to $5) to build momentum and volume sales rather than high-margin risks.",
+      "Beginner-friendly marketing: Step-by-step sales approaches using WhatsApp, Facebook groups, Instagram DMs, and Telegram.",
+      "High-converting outreach: How to approach potential customers with short, value-first messages and preview snippets.",
+      "Frictionless delivery: How to receive payments smoothly using popular methods like M-Pesa in Kenya.",
+      "Author's case study: A real-life timeline detailing how the author created, marketed, and sold their first PDF to reach $100.",
+      "Scaling to next tier: Tips on creating more PDFs, improving quality, bundling packages, and growing a recurring audience.",
+      "Mistakes to avoid: Overthinking layout design, making files too long, insufficient promotion, and quitting too soon.",
+      "3-Day launch sequence: A final simple action plan to launch your first PDF and make sales immediately.",
+      "Action-oriented conclusion: Practical encouragement to take action and launch today since the process is simple and accessible."
     ],
     samplePages: [
       {

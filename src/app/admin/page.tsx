@@ -39,9 +39,9 @@ export default function AdminPage() {
 
   // Features list
   const [features, setFeatures] = useState<string[]>([
-    "The 48-Hour Micro-Gig Launch Sequence.",
-    "5 Plug-and-play pitch templates to secure remote clients.",
-    "Interactive pricing calculator sheets.",
+    "Why selling PDFs is a simple, effective online income method.",
+    "Simple methods for creating PDFs using Canva and Google Docs.",
+    "Deliver PDFs and receive payments smoothly using M-Pesa.",
   ]);
   const [newFeature, setNewFeature] = useState("");
 

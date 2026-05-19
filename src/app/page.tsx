@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useStore } from "@/context/store-context";
 import { ProductCard } from "@/components/product-card";
-import { TextScrambler, NumberTicker, FloatingParticles } from "@/components/cool-animations";
 import { 
   ShieldCheck, Download, Award, Clock, Search, 
   HelpCircle, ChevronDown, Star, MessageSquare 
@@ -11,7 +10,7 @@ import {
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -60,6 +59,120 @@ const TESTIMONIALS = [
   }
 ];
 
+/* ─── ANIMATION 1: Floating Orb ─────────────────────────────────────────── */
+function FloatingOrb({ delay = 0, size = 300, x = "50%", y = "50%", color = "emerald" }: {
+  delay?: number; size?: number; x?: string; y?: string; color?: string;
+}) {
+  const colorMap: Record<string, string> = {
+    emerald: "bg-emerald-500/10",
+    teal: "bg-teal-500/8",
+    green: "bg-green-500/6",
+  };
+  return (
+    <motion.div
+      className={`absolute rounded-full blur-[80px] pointer-events-none ${colorMap[color] ?? colorMap.emerald}`}
+      style={{ width: size, height: size, left: x, top: y, translateX: "-50%", translateY: "-50%" }}
+      animate={{
+        scale: [1, 1.18, 0.94, 1.1, 1],
+        opacity: [0.6, 1, 0.7, 0.9, 0.6],
+        x: [0, 18, -12, 8, 0],
+        y: [0, -14, 10, -6, 0],
+      }}
+      transition={{ duration: 9 + delay, repeat: Infinity, ease: "easeInOut", delay }}
+    />
+  );
+}
+
+/* ─── ANIMATION 2: Counting number ──────────────────────────────────────── */
+function CountUp({ target, prefix = "", suffix = "", duration = 2.2 }: {
+  target: number; prefix?: string; suffix?: string; duration?: number;
+}) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const triggered = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !triggered.current) {
+        triggered.current = true;
+        const start = performance.now();
+        const tick = (now: number) => {
+          const progress = Math.min((now - start) / (duration * 1000), 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          setCount(Math.round(eased * target));
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    }, { threshold: 0.5 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [target, duration]);
+
+  return <span ref={ref}>{prefix}{count}{suffix}</span>;
+}
+
+/* ─── ANIMATION 3: Rotating conic-gradient avatar border ────────────────── */
+function AnimatedAvatar({ initials }: { initials: string }) {
+  const rotation = useMotionValue(0);
+  const springRotation = useSpring(rotation, { stiffness: 40, damping: 10 });
+
+  useEffect(() => {
+    let frame: number;
+    let angle = 0;
+    const tick = () => {
+      angle = (angle + 0.6) % 360;
+      rotation.set(angle);
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [rotation]);
+
+  return (
+    <div className="relative h-24 w-24 flex-shrink-0">
+      <motion.div
+        className="absolute inset-0 rounded-full"
+        style={{
+          background: "conic-gradient(from 0deg, #10b981, #0d9488, #34d399, #10b981)",
+          rotate: springRotation,
+          padding: "2px",
+          borderRadius: "9999px",
+        }}
+      >
+        <div className="h-full w-full rounded-full bg-slate-950" />
+      </motion.div>
+      <div className="absolute inset-[3px] rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center font-black text-2xl text-slate-950 shadow-lg shadow-emerald-500/20">
+        {initials}
+      </div>
+    </div>
+  );
+}
+
+/* ─── ANIMATION 5: Section heading with glowing wipe underline ──────────── */
+function GlowHeading({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <motion.div
+      className={`relative inline-block ${className}`}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.6 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+      <motion.span
+        className="absolute left-0 -bottom-1 h-[2px] rounded-full bg-gradient-to-r from-emerald-400 via-teal-300 to-transparent"
+        initial={{ width: "0%" }}
+        whileInView={{ width: "100%" }}
+        viewport={{ once: true, amount: 0.6 }}
+        transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" }}
+      />
+    </motion.div>
+  );
+}
+
 export default function Home() {
   const { products, convertPrice } = useStore();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -68,8 +181,6 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
-
-
 
   // Filter products based on search input
   const filteredProducts = products.filter(p => 
@@ -127,18 +238,33 @@ export default function Home() {
         }
       }
     );
+
+    // 5. Author section entrance
+    gsap.fromTo(
+      ".author-banner",
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".author-section",
+          start: "top 88%",
+        }
+      }
+    );
   }, { scope: containerRef });
 
   return (
     <div ref={containerRef} className="flex flex-col min-h-screen bg-transparent overflow-hidden relative">
       
-      {/* 1. HERO SECTION (Fintech Theme) */}
+      {/* 1. HERO SECTION — ANIMATION 1: Floating orbs */}
       <section className="relative pt-20 pb-24 overflow-hidden bg-transparent">
-        {/* Animation 4: Ambient Floating Particles Drift */}
-        <FloatingParticles count={12} />
-
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute top-0 right-10 w-[300px] h-[300px] bg-teal-500/5 rounded-full blur-[80px] pointer-events-none" />
+        {/* Floating animated orbs */}
+        <FloatingOrb delay={0}   size={520} x="50%"  y="30%"  color="emerald" />
+        <FloatingOrb delay={2.5} size={320} x="80%"  y="15%"  color="teal"    />
+        <FloatingOrb delay={4.5} size={260} x="15%"  y="60%"  color="green"   />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="space-y-6 max-w-4xl mx-auto">
@@ -149,11 +275,38 @@ export default function Home() {
               </span>
             </div>
 
+            {/* ANIMATION 2: CountUp hero stat */}
+            <motion.div
+              className="hero-element flex justify-center gap-8 text-center"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <div className="px-6 py-3 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl">
+                <div className="text-3xl font-black text-emerald-400">
+                  <CountUp target={100} prefix="$" />
+                </div>
+                <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-1">First Milestone</div>
+              </div>
+              <div className="px-6 py-3 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl">
+                <div className="text-3xl font-black text-emerald-400">
+                  <CountUp target={7} suffix=" days" />
+                </div>
+                <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-1">Avg. Time to First $</div>
+              </div>
+              <div className="px-6 py-3 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl hidden sm:block">
+                <div className="text-3xl font-black text-emerald-400">
+                  <CountUp target={142} suffix="+" />
+                </div>
+                <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-1">Buyers Succeeded</div>
+              </div>
+            </motion.div>
+
             {/* Main Headline */}
             <h1 className="hero-element text-4xl sm:text-6xl font-black text-white leading-tight tracking-tight">
               Start Earning Online with{" "}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500">
-                <TextScrambler text="Practical Guides" delay={300} />
+                Practical Guides
               </span>
             </h1>
 
@@ -171,13 +324,18 @@ export default function Home() {
               { icon: Clock, title: "Lifetime Updates", desc: "Free revised editions whenever platform rules adapt." },
               { icon: Award, title: "Beginner Friendly", desc: "No complex skills or high starting capital required." }
             ].map((item, idx) => (
-              <div key={idx} className="trust-indicator-card p-4 bg-slate-900/30 rounded-2xl border border-slate-900 flex flex-col items-center text-center space-y-2">
+              <motion.div
+                key={idx}
+                className="trust-indicator-card p-4 bg-slate-900/30 rounded-2xl border border-slate-900 flex flex-col items-center text-center space-y-2"
+                whileHover={{ scale: 1.04, borderColor: "rgba(16,185,129,0.3)", y: -3 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
                 <div className="p-2 bg-emerald-500/10 rounded-xl text-theme-accent">
                   <item.icon className="h-5 w-5" />
                 </div>
                 <h3 className="text-sm font-bold text-white">{item.title}</h3>
                 <p className="text-[10px] text-slate-500 leading-normal">{item.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -185,14 +343,17 @@ export default function Home() {
 
 
 
-      {/* 2. CATALOG GRID SECTION (Feature 8 Integrated) */}
+      {/* 2. CATALOG GRID SECTION */}
       <section className="strategy-section py-20 bg-transparent border-t border-slate-900/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
+          {/* ANIMATION 5: GlowHeading wipe underline */}
           <div className="text-center space-y-4 mb-12">
-            <h2 className="strategy-header-element text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-              Explore Our Strategy Library
-            </h2>
+            <GlowHeading>
+              <h2 className="strategy-header-element text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                Explore Our Strategy Library
+              </h2>
+            </GlowHeading>
             <p className="strategy-header-element text-slate-400 text-sm sm:text-base max-w-md mx-auto">
               Select one of our action-oriented manuals to accelerate your remote income journey today.
             </p>
@@ -246,38 +407,58 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TESTIMONIALS CAROUSEL SECTION (Feature 2) */}
+      {/* ANIMATION 4: TESTIMONIALS — smooth crossfade slide */}
       <section className="py-20 bg-transparent border-t border-slate-900/60">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-3 mb-12">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/5 border border-emerald-500/10 rounded-full text-xs font-black text-theme-accent uppercase tracking-wider">
+            <motion.div
+              className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/5 border border-emerald-500/10 rounded-full text-xs font-black text-theme-accent uppercase tracking-wider"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
               <MessageSquare className="h-3.5 w-3.5" /> Reader Success Stories
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Rated <NumberTicker value={5} decimal={true} suffix=".0" /> Stars by Global Beginners
-            </h2>
+            </motion.div>
+            <GlowHeading>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Rated 5.0 Stars by Global Beginners</h2>
+            </GlowHeading>
           </div>
 
           {/* Glass Testimonial Frame */}
           <div className="glass-panel border-slate-900 rounded-3xl p-8 sm:p-12 relative overflow-hidden flex flex-col items-center text-center shadow-xl min-h-[280px] justify-center">
-            
-            {/* Background Glow */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
 
+            {/* Stars */}
             <div className="flex gap-1 text-amber-400 mb-6">
               {[...Array(TESTIMONIALS[activeTestimonial].rating)].map((_, i) => (
-                <Star key={i} className="h-5 w-5 fill-current" />
+                <motion.div key={i} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: i * 0.07, type: "spring" }}>
+                  <Star className="h-5 w-5 fill-current" />
+                </motion.div>
               ))}
             </div>
 
-            <p className="text-sm sm:text-lg text-slate-200 font-medium italic leading-relaxed max-w-2xl">
-              "{TESTIMONIALS[activeTestimonial].quote}"
-            </p>
-
-            <div className="mt-6">
-              <h4 className="text-sm font-black text-white">{TESTIMONIALS[activeTestimonial].name}</h4>
-              <p className="text-[10px] font-bold text-slate-500 mt-0.5">{TESTIMONIALS[activeTestimonial].location} • {TESTIMONIALS[activeTestimonial].tag}</p>
-            </div>
+            {/* ANIMATION 4: Cross-fade slide quote */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTestimonial}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -30 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="flex flex-col items-center"
+              >
+                <p className="text-sm sm:text-lg text-slate-200 font-medium italic leading-relaxed max-w-2xl">
+                  &quot;{TESTIMONIALS[activeTestimonial].quote}&quot;
+                </p>
+                <div className="mt-6">
+                  <h4 className="text-sm font-black text-white">{TESTIMONIALS[activeTestimonial].name}</h4>
+                  <p className="text-[10px] font-bold text-slate-500 mt-0.5">
+                    {TESTIMONIALS[activeTestimonial].location} • {TESTIMONIALS[activeTestimonial].tag}
+                  </p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
 
             {/* Controls */}
             <div className="flex gap-2 mt-8">
@@ -285,8 +466,8 @@ export default function Home() {
                 <button
                   key={idx}
                   onClick={() => setActiveTestimonial(idx)}
-                  className={`h-2.5 w-2.5 rounded-full transition-all cursor-pointer ${
-                    activeTestimonial === idx ? "bg-theme-accent w-6" : "bg-slate-800 hover:bg-slate-700"
+                  className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                    activeTestimonial === idx ? "bg-theme-accent w-6" : "w-2.5 bg-slate-800 hover:bg-slate-700"
                   }`}
                   aria-label={`Go to slide ${idx + 1}`}
                 />
@@ -296,23 +477,35 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ SECTION WITH GSAP ACCORDIONS (Feature 4) */}
+      {/* FAQ SECTION */}
       <section className="py-20 bg-transparent border-t border-slate-900/60">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-3 mb-16">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/5 border border-emerald-500/10 rounded-full text-xs font-black text-theme-accent uppercase tracking-wider">
+            <motion.div
+              className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/5 border border-emerald-500/10 rounded-full text-xs font-black text-theme-accent uppercase tracking-wider"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
               <HelpCircle className="h-3.5 w-3.5" /> Pre-Sales Queries
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Frequently Asked Questions</h2>
+            </motion.div>
+            <GlowHeading>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Frequently Asked Questions</h2>
+            </GlowHeading>
           </div>
 
           <div className="space-y-4">
             {FAQS.map((faq, idx) => {
               const isOpen = activeFaq === idx;
               return (
-                <div 
-                  key={idx} 
-                  className="bg-slate-900/30 border border-slate-900 hover:border-slate-800/80 rounded-2xl overflow-hidden transition-all duration-300"
+                <motion.div 
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.5, delay: idx * 0.08 }}
+                  className="bg-slate-900/30 border border-slate-900 hover:border-slate-800/80 rounded-2xl overflow-hidden transition-colors duration-300"
                 >
                   <button
                     onClick={() => setActiveFaq(isOpen ? null : idx)}
@@ -336,22 +529,21 @@ export default function Home() {
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </div>
+                </motion.div>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* 3. MENTOR PROFILE BANNER */}
+      {/* ANIMATION 3: Author section with spinning conic gradient avatar */}
       <section className="author-section py-16 bg-transparent border-t border-slate-900/60">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="author-banner glass-panel border-slate-800 rounded-3xl p-8 sm:p-12 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl" />
 
-            <div className="h-24 w-24 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-full flex-shrink-0 flex items-center justify-center font-black text-2xl text-slate-950 shadow-lg shadow-emerald-500/10">
-              OM
-            </div>
+            {/* ANIMATION 3: Rotating conic gradient border on avatar */}
+            <AnimatedAvatar initials="OM" />
 
             <div className="space-y-4 text-center md:text-left">
               <span className="text-[10px] uppercase font-black text-theme-accent tracking-wider">Meet The Author</span>

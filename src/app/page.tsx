@@ -3,6 +3,7 @@
 import React, { useRef, useState } from "react";
 import { useStore } from "@/context/store-context";
 import { ProductCard } from "@/components/product-card";
+import { TextScrambler, NumberTicker, FloatingParticles } from "@/components/cool-animations";
 import { 
   ShieldCheck, Download, Award, Clock, Search, 
   HelpCircle, ChevronDown, Star, MessageSquare 
@@ -133,6 +134,9 @@ export default function Home() {
       
       {/* 1. HERO SECTION (Fintech Theme) */}
       <section className="relative pt-20 pb-24 overflow-hidden bg-transparent">
+        {/* Animation 4: Ambient Floating Particles Drift */}
+        <FloatingParticles count={12} />
+
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute top-0 right-10 w-[300px] h-[300px] bg-teal-500/5 rounded-full blur-[80px] pointer-events-none" />
 
@@ -149,7 +153,7 @@ export default function Home() {
             <h1 className="hero-element text-4xl sm:text-6xl font-black text-white leading-tight tracking-tight">
               Start Earning Online with{" "}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500">
-                Practical Guides
+                <TextScrambler text="Practical Guides" delay={300} />
               </span>
             </h1>
 
@@ -249,7 +253,9 @@ export default function Home() {
             <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/5 border border-emerald-500/10 rounded-full text-xs font-black text-theme-accent uppercase tracking-wider">
               <MessageSquare className="h-3.5 w-3.5" /> Reader Success Stories
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Rated 5.0 Stars by Global Beginners</h2>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+              Rated <NumberTicker value={5} decimal={true} suffix=".0" /> Stars by Global Beginners
+            </h2>
           </div>
 
           {/* Glass Testimonial Frame */}

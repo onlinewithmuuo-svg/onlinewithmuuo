@@ -4,8 +4,8 @@ import React, { useRef, useState } from "react";
 import { useStore } from "@/context/store-context";
 import { ProductCard } from "@/components/product-card";
 import { 
-  ShieldCheck, Download, Award, Clock, Search, Sliders, 
-  HelpCircle, ChevronDown, Star, MessageSquare, Target, Calculator 
+  ShieldCheck, Download, Award, Clock, Search, 
+  HelpCircle, ChevronDown, Star, MessageSquare 
 } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
@@ -68,22 +68,7 @@ export default function Home() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
-  // ROI Calculator states
-  const [studyHours, setStudyHours] = useState(5);
-  const [focusNiche, setFocusNiche] = useState<"writing" | "data" | "design">("writing");
 
-  // Calculate potential earnings based on slider and niche multiplier
-  const calculateSimulatedEarnings = () => {
-    const multipliers = { writing: 15, data: 22, design: 18 };
-    const baseWeekly = studyHours * multipliers[focusNiche];
-    return baseWeekly;
-  };
-
-  const getProjectedDaysToFirstSale = () => {
-    if (studyHours >= 12) return "3 to 4 days";
-    if (studyHours >= 6) return "6 to 8 days";
-    return "10 to 14 days";
-  };
 
   // Filter products based on search input
   const filteredProducts = products.filter(p => 
@@ -194,86 +179,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ROI CALCULATOR SECTION (Feature 5) */}
-      <section className="py-20 border-t border-slate-900 bg-slate-950/40 relative">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-3 mb-12">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/5 border border-emerald-500/10 rounded-full text-xs font-black text-theme-accent uppercase tracking-wider">
-              <Calculator className="h-3.5 w-3.5" /> Interactive ROI Estimator
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Simulate Your Income Returns</h2>
-            <p className="text-slate-400 text-xs sm:text-sm max-w-md mx-auto">
-              Slide study hours and select your micro-niche to compute potential side-yields.
-            </p>
-          </div>
 
-          <div className="glass-panel border-slate-900 rounded-3xl p-6 sm:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center shadow-xl">
-            {/* Control Panel */}
-            <div className="space-y-6">
-              {/* Slider 1: Study hours */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center text-xs font-bold">
-                  <span className="text-slate-400 uppercase tracking-wider">Study & Applied Hours</span>
-                  <span className="text-theme-accent">{studyHours} hrs/week</span>
-                </div>
-                <input 
-                  type="range" 
-                  min="2" 
-                  max="25" 
-                  value={studyHours}
-                  onChange={(e) => setStudyHours(Number(e.target.value))}
-                  className="w-full accent-emerald-500 bg-slate-900 rounded-lg cursor-pointer h-2"
-                />
-                <div className="flex justify-between text-[9px] font-bold text-slate-500">
-                  <span>Casual (2 hrs)</span>
-                  <span>Hyper-focus (25 hrs)</span>
-                </div>
-              </div>
-
-              {/* Toggle Buttons: Niche Selector */}
-              <div className="space-y-2">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Target Micro-Skill</span>
-                <div className="grid grid-cols-3 gap-2">
-                  {[
-                    { id: "writing", label: "Copy-writing" },
-                    { id: "data", label: "Data Auditing" },
-                    { id: "design", label: "UI Layouts" }
-                  ].map((n) => (
-                    <button
-                      key={n.id}
-                      onClick={() => setFocusNiche(n.id as any)}
-                      className={`py-2 px-3 text-[10px] font-black uppercase rounded-xl border transition-all cursor-pointer ${
-                        focusNiche === n.id 
-                          ? "bg-emerald-500/10 border-theme-accent text-theme-accent"
-                          : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white"
-                      }`}
-                    >
-                      {n.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Calculations Dashboard */}
-            <div className="p-6 bg-slate-900/40 rounded-2xl border border-slate-800/80 space-y-4">
-              <div>
-                <span className="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Weekly Return Potential</span>
-                <h3 className="text-3xl font-black text-white mt-1">
-                  {convertPrice(calculateSimulatedEarnings())}
-                </h3>
-              </div>
-              <div className="border-t border-slate-800 pt-3 flex justify-between text-xs">
-                <span className="text-slate-400">First Order Outlook:</span>
-                <span className="font-bold text-emerald-400">{getProjectedDaysToFirstSale()}</span>
-              </div>
-              <p className="text-[9px] text-slate-500 leading-normal pt-1">
-                *Simulations are based on realistic hourly task returns in Nairobi/Lagos gig centers using active Upwork & Fiverr average entry quotes.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* 2. CATALOG GRID SECTION (Feature 8 Integrated) */}
       <section className="strategy-section py-20 bg-transparent border-t border-slate-900/60">

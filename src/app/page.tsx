@@ -19,7 +19,7 @@ if (typeof window !== "undefined") {
 const FAQS = [
   {
     q: "How soon can I make my first $100 online?",
-    a: "Many students who actively apply the Fiverr profile setup checklist and use our Upwork pitch templates land their first micro-gig within 3 to 7 days of launching. The guides are designed to get you active immediately without delays."
+    a: "Many students who actively apply the setup checklists and use our pitch templates land their first paying project within 3 to 7 days of launching. The guides are designed to get you active immediately without delays."
   },
   {
     q: "Do I need prior technical experience or degrees?",
@@ -39,16 +39,16 @@ const TESTIMONIALS = [
   {
     name: "Kelvin O.",
     location: "Nairobi, KE",
-    quote: "I used the profile setup checklist from the Freelance Action Plan and landed my first order on Fiverr in 3 days. Super practical and straightforward!",
+    quote: "I used the step-by-step setup checklist and secured my first paying client in 3 days. Super practical and straightforward!",
     rating: 5,
-    tag: "Fiverr Success"
+    tag: "Client Secured"
   },
   {
     name: "Amara N.",
     location: "Lagos, NG",
-    quote: "The proposal templates are actual gold. I had been struggling to get replies on Upwork for weeks. Copy-pasted the script and got hired immediately.",
+    quote: "The proposal pitch scripts are actual gold. I had been struggling to get replies from remote clients for weeks. Copy-pasted the script and got hired immediately.",
     rating: 5,
-    tag: "Upwork Success"
+    tag: "Remote Contract"
   },
   {
     name: "Chloe L.",

@@ -40,7 +40,7 @@ export default function AdminPage() {
   // Features list
   const [features, setFeatures] = useState<string[]>([
     "The 48-Hour Micro-Gig Launch Sequence.",
-    "5 Plug-and-play pitch templates for Upwork.",
+    "5 Plug-and-play pitch templates to secure remote clients.",
     "Interactive pricing calculator sheets.",
   ]);
   const [newFeature, setNewFeature] = useState("");

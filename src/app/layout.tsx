@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "OnlineWithMuuo Storefront | How I Made My First $100 Online (Step-by-Step)",
   description: "Get the exact step-by-step blueprint to land micro-gigs and make your first $100 online. Secure freelancing guides, profile checklists, and proposal templates by OnlineWithMuuo.",
-  keywords: ["Make Money Online", "Freelancing PDF", "First $100 Online", "Fiverr Blueprint", "Upwork Proposal Templates", "OnlineWithMuuo", "Remote Work Guide"],
+  keywords: ["Make Money Online", "Freelancing PDF", "First $100 Online", "Online Income Blueprint", "Remote Pitch Templates", "OnlineWithMuuo", "Remote Work Guide"],
   authors: [{ name: "OnlineWithMuuo" }],
   openGraph: {
     title: "OnlineWithMuuo Storefront - How I Made My First $100 Online",

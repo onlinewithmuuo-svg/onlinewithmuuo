@@ -37,8 +37,8 @@ export const products: Product[] = [
     publishedYear: "2026",
     features: [
       "The exact 3-step sequence to land your first remote micro-task.",
-      "High-converting pitch templates to message clients on top platforms.",
-      "Profile optimization checklists for Upwork and Fiverr to bypass the filter.",
+      "High-converting pitch templates to message clients on top remote platforms.",
+      "Profile optimization checklists for global freelance platforms to bypass onboarding filters.",
       "5 legitimate, zero-capital digital skills you can monetize in 2 hours.",
       "Real-world case studies detailing payment processing and client handling."
     ],
@@ -46,7 +46,7 @@ export const products: Product[] = [
       {
         title: "Chapter 1: The First Dollar Mindset Shift",
         subtitle: "Monetizing Micro-Skills on Day One",
-        content: "Earning your first dollar online is not about mastering advanced coding or running complex advertising campaigns. It is about identifying the micro-skills you already possess—such as formatting documents, transcribing audio, or organizing spreadsheets—and matching them to busy professionals who value their time. Legitimate platforms like Upwork, Fiverr, and local micro-gig boards are filled with business owners willing to pay $15 to $25 for small tasks that take you less than an hour. The key is in the execution, presentation, and responsiveness of your outreach."
+        content: "Earning your first dollar online is not about mastering advanced coding or running complex advertising campaigns. It is about identifying the micro-skills you already possess—such as formatting documents, transcribing audio, or organizing spreadsheets—and matching them to busy professionals who value their time. Legitimate global remote work platforms and local micro-gig boards are filled with business owners willing to pay $15 to $25 for small tasks that take you less than an hour. The key is in the execution, presentation, and responsiveness of your outreach."
       },
       {
         title: "Section 3: The 72-Hour Client Acquisition Funnel",

@@ -28,12 +28,12 @@ interface BgParticle {
 }
 
 const ACTIVITIES = [
-  { text: "James K. from Nairobi just unlocked the Freelance Action Plan!", icon: "🔥" },
-  { text: "14 people are currently looking inside the Forex Bundle!", icon: "⚡" },
-  { text: "Sarah M. from London unlocked the Complete Strategy Bundle!", icon: "💎" },
-  { text: "A customer from Hamburg purchased the First $100 Guide!", icon: "📈" },
-  { text: "Liam D. from Dublin downloaded the Freelance Action Plan!", icon: "🚀" },
-  { text: "9 readers added the Complete Bundle to their cart in the last hour!", icon: "🎯" }
+  { text: "James K. from Nairobi just unlocked the First $100 Online Guide!", icon: "🔥" },
+  { text: "14 people are currently reading the Chapter 1 sample pages!", icon: "⚡" },
+  { text: "Sarah M. from London downloaded the Step-by-Step Blueprint PDF!", icon: "💎" },
+  { text: "A student from Lagos just secured the First $100 Workbook!", icon: "📈" },
+  { text: "Liam D. from Dublin successfully made his first sale using this guide!", icon: "🚀" },
+  { text: "9 readers added the First $100 Blueprint to their cart in the last hour!", icon: "🎯" }
 ];
 
 export function InteractiveCanvas() {
